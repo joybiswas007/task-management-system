@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -9,7 +9,14 @@ const Login = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userData, setUserData] = useState({});
+  const [tokens, setTokens] = useState({});
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (Object.keys(userData).length > 0 && Object.keys(tokens).length > 0) {
+      navigate("/dashboard", { state: { user: userData, tokens: tokens } });
+    }
+  }, [userData, tokens, navigate]);
 
   const loginUser = async () => {
     try {
@@ -19,10 +26,9 @@ const Login = () => {
         { headers: { "Content-Type": "application/json" } }
       );
       if (response.data.statusCode === 200) {
-        setUserData(response.data);
-        navigate("/dashboard", { user: userData });
+        setUserData(response.data.user);
+        setTokens(response.data.tokens);
       }
-      // Redirect to dashboard upon successful login
     } catch (error) {
       if (error.response.status === 401 || error.response.status === 404) {
         setError(true);

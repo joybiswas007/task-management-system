@@ -1,7 +1,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const logger = require("../configs/logger");
-const { User } = require("../models/taskSchema");
+const { User, Token } = require("../models/taskSchema");
+const jwt = require("jsonwebtoken");
 
 router.post("/", async (req, res) => {
   try {
@@ -35,9 +36,23 @@ router.post("/", async (req, res) => {
     // Save the user to the database
     await newUser.save();
 
+    const { JWT_SECRET } = process.env;
+
+    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
+      expiresIn: "1m",
+    });
+
+    const accessToken = new Token({
+      user: newUser._id,
+      tokens: [{ token }],
+    });
+
+    await accessToken.save();
+
     res.status(201).send({
       statusCode: 201,
       message: "User registered successfully",
+      token,
     });
   } catch (error) {
     logger.error(error.message);

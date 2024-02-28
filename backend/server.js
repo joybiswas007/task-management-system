@@ -17,10 +17,14 @@ app.use(cors());
 // Import routes
 const login = require("../backend/routes/login");
 const register = require("../backend/routes/register");
+const addTask = require("./routes/addTask");
+const tasks = require("./routes/tasks");
 
 // Use routes
 app.use("/auth/v1/login", login);
 app.use("/auth/v1/register", register);
+app.use("/auth/v1/addtask", addTask);
+app.use("/auth/v1/tasks", tasks);
 
 app.get("*", (req, res) => {
   res.status(403).send({

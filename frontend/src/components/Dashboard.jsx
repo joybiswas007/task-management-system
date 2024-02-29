@@ -46,7 +46,7 @@ const Dashboard = () => {
   const addTask = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:15000/auth/v1/addtask",
+        "http://localhost:15000/auth/v1/task/add",
         {
           userId: userData._id,
           title: task.title,

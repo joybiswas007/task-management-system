@@ -1,12 +1,12 @@
 const router = require("express").Router();
-const { Task } = require("../models/taskSchema");
-const logger = require("../configs/logger");
-const authUser = require("../middleware/authUser");
+const { Task } = require("../../models/taskSchema");
+const logger = require("../../configs/logger");
+const authUser = require("../../middleware/authUser");
 
 router.post("/", authUser, async (req, res) => {
   try {
-    const { user } = req;
-    const tasks = await Task.find({ user: user.userId });
+    const { userId } = req.user;
+    const tasks = await Task.find({ user: userId });
     if (tasks.length > 0) {
       return res.status(200).send({ statusCode: 200, tasks });
     }

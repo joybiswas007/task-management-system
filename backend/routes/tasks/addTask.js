@@ -1,7 +1,7 @@
 const router = require("express").Router();
-const { Task } = require("../models/taskSchema");
-const logger = require("../configs/logger");
-const authUser = require("../middleware/authUser");
+const { Task } = require("../../models/taskSchema");
+const logger = require("../../configs/logger");
+const authUser = require("../../middleware/authUser");
 
 router.post(
   "/",

@@ -1,13 +1,13 @@
 const router = require("express").Router();
-const { User, Token } = require("../models/taskSchema");
 const bcrypt = require("bcrypt");
+const { User, Token } = require("../models/taskSchema");
 const logger = require("../configs/logger");
 
 router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select(
-      "_id username email password createdAt updatedAt"
+      "_id username email password createdAt updatedAt",
     );
     if (!user) {
       return res.status(404).send({
@@ -16,7 +16,7 @@ router.post("/", async (req, res) => {
       });
     }
     const tokens = await Token.findOne({ user: user._id }).select(
-      "_id user tokens"
+      "_id user tokens",
     );
     const matchPass = bcrypt.compareSync(password, user.password);
 

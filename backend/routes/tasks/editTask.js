@@ -29,7 +29,7 @@ router.post(
         { title, description, dueDate, priority, category },
         {
           new: true,
-        }
+        },
       );
       if (!tasks) {
         return res
@@ -41,7 +41,7 @@ router.post(
       logger.error(error.message);
       res.status(500).send({ statusCode: 500, error: error.message });
     }
-  }
+  },
 );
 
 module.exports = router;

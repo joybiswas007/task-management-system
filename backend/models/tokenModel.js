@@ -11,7 +11,7 @@ const tokenSchema = new mongoose.Schema(
     },
     tokens: [{ token: String }],
   },
-  schemaOptions
+  schemaOptions,
 );
 
 const Token = mongoose.model("Token", tokenSchema);

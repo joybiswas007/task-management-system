@@ -15,8 +15,8 @@ app.use(express.json());
 app.use(cors());
 
 // Import routes
-const login = require("../backend/routes/login");
-const register = require("../backend/routes/register");
+const login = require("./routes/login");
+const register = require("./routes/register");
 const addTask = require("./routes/tasks/addTask");
 const tasks = require("./routes/tasks/tasks");
 const editTask = require("./routes/tasks/editTask");

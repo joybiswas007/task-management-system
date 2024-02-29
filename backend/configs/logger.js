@@ -8,7 +8,7 @@ const logger = createLogger({
     }),
     format.errors({ stack: true }),
     format.splat(),
-    format.json()
+    format.json(),
   ),
   defaultMeta: { service: "task-api" },
   transports: [
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV !== "production") {
   logger.add(
     new transports.Console({
       format: format.combine(format.colorize(), format.simple()),
-    })
+    }),
   );
 }
 

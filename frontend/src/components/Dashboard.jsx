@@ -58,7 +58,7 @@ const Dashboard = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token.tokens}`,
+            Authorization: `Bearer ${token.token}`,
           },
         }
       );
@@ -67,6 +67,7 @@ const Dashboard = () => {
         setError(false);
       }
     } catch (error) {
+      console.log(error.message);
       if (error.response.status === 401 || error.response.status === 404) {
         setError(true);
         setErrorMessage("You're not authorized to post.");

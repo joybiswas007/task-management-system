@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const logger = require("../configs/logger");
 
 const authUser = (req, res, next) => {
   const { authorization: token } = req.headers;
@@ -14,13 +15,13 @@ const authUser = (req, res, next) => {
   // Verify token
   jwt.verify(accessToken, JWT_SECRET, (err, decoded) => {
     if (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(401).send({ message: "Unauthorized - Invalid token" });
     }
 
     // Token is valid, store decoded user data in request object for further use
     req.user = { decoded, accessToken };
-    next(); // Proceed to the next middleware or route handler
+    next();
   });
 };
 

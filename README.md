@@ -8,6 +8,9 @@ This is a simple task management system built using React for the frontend and E
 
 1. Clone the repository:
 
+`cd task-management-system`
+and run `npm install`
+
 2. Navigate to the `backend` directory:
 
 ```
@@ -42,7 +45,7 @@ Example `.env` file:
 PORT=15000
 NODE_ENV=production
 JWT_SECRET=yourjwtsecret
-MONGODB_URI=mongodb+srv://username:password@dbaddress/dbname
+MONGODB_URI=YourMongoDbUrl
 ```
 
 Or run concurrently from the cloned directory: `npm run start`

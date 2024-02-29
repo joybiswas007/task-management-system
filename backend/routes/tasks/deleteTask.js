@@ -9,7 +9,7 @@ router.post(
   (req, res, next) => {
     const { taskId } = req.body;
     req.taskData = {
-      taskId,
+      taskId
     };
     next();
   },
@@ -28,7 +28,7 @@ router.post(
       logger.error(error.message);
       res.status(500).send({ statusCode: 500, error: error.message });
     }
-  },
+  }
 );
 
 module.exports = router;

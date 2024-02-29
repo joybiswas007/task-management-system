@@ -15,7 +15,7 @@ router.post(
       description,
       dueDate,
       priority,
-      category,
+      category
     };
     next();
   },
@@ -28,8 +28,8 @@ router.post(
         { _id: taskId, user: userId },
         { title, description, dueDate, priority, category },
         {
-          new: true,
-        },
+          new: true
+        }
       );
       if (!tasks) {
         return res
@@ -41,7 +41,7 @@ router.post(
       logger.error(error.message);
       res.status(500).send({ statusCode: 500, error: error.message });
     }
-  },
+  }
 );
 
 module.exports = router;

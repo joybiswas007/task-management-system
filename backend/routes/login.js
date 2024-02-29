@@ -7,16 +7,16 @@ router.post("/", async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({ email }).select(
-      "_id username email password createdAt updatedAt",
+      "_id username email password createdAt updatedAt"
     );
     if (!user) {
       return res.status(404).send({
         statusCode: 404,
-        message: "no user exist with that email address",
+        message: "no user exist with that email address"
       });
     }
     const tokens = await Token.findOne({ user: user._id }).select(
-      "_id user tokens",
+      "_id user tokens"
     );
     const matchPass = bcrypt.compareSync(password, user.password);
 
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
       statusCode: 200,
       message: "Authentication successfull",
       user,
-      tokens,
+      tokens
     });
   } catch (error) {
     logger.error(error.message);

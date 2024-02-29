@@ -4,11 +4,11 @@ const logger = createLogger({
   level: "info",
   format: format.combine(
     format.timestamp({
-      format: "YYYY-MM-DD HH:mm:ss",
+      format: "YYYY-MM-DD HH:mm:ss"
     }),
     format.errors({ stack: true }),
     format.splat(),
-    format.json(),
+    format.json()
   ),
   defaultMeta: { service: "task-api" },
   transports: [
@@ -17,8 +17,8 @@ const logger = createLogger({
     // - Write all logs error (and below) to `quick-start-error.log`.
     //
     new transports.File({ filename: "api-error.log", level: "error" }),
-    new transports.File({ filename: "api-combined.log" }),
-  ],
+    new transports.File({ filename: "api-combined.log" })
+  ]
 });
 
 //
@@ -28,8 +28,8 @@ const logger = createLogger({
 if (process.env.NODE_ENV !== "production") {
   logger.add(
     new transports.Console({
-      format: format.combine(format.colorize(), format.simple()),
-    }),
+      format: format.combine(format.colorize(), format.simple())
+    })
   );
 }
 

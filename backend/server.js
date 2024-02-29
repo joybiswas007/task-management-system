@@ -32,7 +32,7 @@ app.use("/auth/v1/task/delete", deleteTask);
 
 app.get("*", (req, res) => {
   res.status(403).send({
-    error: `Method ${req.method} not allowed`,
+    error: `Method ${req.method} not allowed`
   });
 });
 

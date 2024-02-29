@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
     if (password.length <= 8 || password.length >= 72) {
       return res.status(400).send({
         statusCode: 400,
-        message: "Password must between 8 and 72 characters",
+        message: "Password must between 8 and 72 characters"
       });
     }
 
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
     const newUser = new User({
       username,
       email,
-      password: hashedPassword, // Store the hashed password
+      password: hashedPassword // Store the hashed password
     });
 
     // Save the user to the database
@@ -39,12 +39,12 @@ router.post("/", async (req, res) => {
     const { JWT_SECRET } = process.env;
 
     const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, {
-      expiresIn: "30d",
+      expiresIn: "30d"
     });
 
     const accessToken = new Token({
       user: newUser._id,
-      tokens: [{ token }],
+      tokens: [{ token }]
     });
 
     await accessToken.save();
@@ -52,7 +52,7 @@ router.post("/", async (req, res) => {
     res.status(201).send({
       statusCode: 201,
       message: "User registered successfully",
-      token,
+      token
     });
   } catch (error) {
     logger.error(error.message);

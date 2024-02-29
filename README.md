@@ -16,34 +16,33 @@ cd backend
 
 3. Install dependencies:
 
-```bash
+```
 npm install
-```
-
-4. Start the backend server:
-
-```
-npm run start
 ```
 
 ### Frontend
 
 1. Navigate to the `frontend` directory:
 
-```bash
+```
 cd frontend
 ```
 
 2. Install dependencies:
 
-```bash
+```
 npm install
 ```
 
-3. Start the frontend server:
+Create a `.env` file inside the `backend` directory and fill in all the details.
 
-```bash
-npm run dev
+Example `.env` file:
+
+```
+PORT=15000
+NODE_ENV=production
+JWT_SECRET=yourjwtsecret
+MONGODB_URI=mongodb+srv://username:password@dbaddress/dbname
 ```
 
 Or run concurrently from the cloned directory: `npm run start`

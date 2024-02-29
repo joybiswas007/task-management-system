@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Form, Button, Container, Alert } from "react-bootstrap";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import login from "../utils/login";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,31 +18,16 @@ const Login = () => {
     }
   }, [userData, token, navigate]);
 
-  const loginUser = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:15000/auth/v1/login",
-        { email, password },
-        { headers: { "Content-Type": "application/json" } }
-      );
-      if (response.data.statusCode === 200) {
-        setUserData(response.data.user);
-        setToken(response.data.token);
-      }
-    } catch (error) {
-      if (error.response.status === 401 || error.response.status === 404) {
-        setError(true);
-        setErrorMessage("Invalid email or password");
-      } else {
-        setError(true);
-        setErrorMessage("An error occurred. Please try again later.");
-      }
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    loginUser();
+    await login(
+      email,
+      password,
+      setUserData,
+      setToken,
+      setError,
+      setErrorMessage
+    );
   };
 
   const handleClear = () => {
@@ -78,6 +63,9 @@ const Login = () => {
           <Button variant="secondary" onClick={handleClear}>
             Clear
           </Button>
+          <p className="mt-3">
+            Don&apos;t have an account? <Link to="/register">Register</Link>
+          </p>
         </div>
       </Form>
     </Container>

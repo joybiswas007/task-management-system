@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { User, Token } = require("../models/taskSchema");
 const logger = require("../configs/logger");
 
@@ -15,9 +16,15 @@ router.post("/", async (req, res) => {
         message: "no user exist with that email address"
       });
     }
-    const token = await Token.findOne({ user: user._id }).select(
-      "_id user token"
-    );
+    let token;
+    token = await Token.findOne({ user: user._id }).select("_id user token");
+    const { JWT_SECRET } = process.env;
+    if (!token) {
+      const accessToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+        expiresIn: "30d"
+      });
+      token = await Token.create({ user: user._id, token: accessToken });
+    }
     const matchPass = bcrypt.compareSync(password, user.password);
 
     if (!matchPass) {

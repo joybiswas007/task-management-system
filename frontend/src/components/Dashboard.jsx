@@ -9,8 +9,9 @@ import {
   Nav,
 } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import addTask from "../utils/addTask";
+import logout from "../utils/logout";
 
 const Dashboard = () => {
   const location = useLocation();
@@ -38,53 +39,28 @@ const Dashboard = () => {
     setTask({ ...task, [name]: value });
   };
 
-  const handleCreateTask = (e) => {
+  const handleCreateTask = async (e) => {
     e.preventDefault();
-    addTask();
-  };
 
-  const addTask = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:15000/auth/v1/task/add",
-        {
-          userId: userData._id,
-          title: task.title,
-          description: task.description,
-          dueDate: task.dueDate,
-          priority: task.priority,
-          category: task.category,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      );
-      if (response.data.statusCode === 200) {
-        setSuccessMessage("Task added successfully");
-        setError(false);
-      }
-    } catch (error) {
-      console.log(error.message);
-      if (error.response.status === 401 || error.response.status === 404) {
-        setError(true);
-        setErrorMessage("You're not authorized to post.");
-      } else {
-        setError(true);
-        setErrorMessage("An error occurred. Please try again later.");
-      }
-    }
+    await addTask(
+      userData,
+      task,
+      token.token,
+      setSuccessMessage,
+      setError,
+      setErrorMessage
+    );
   };
 
   const handleViewTasks = () => {
     navigate("/tasks", { state: { user: userData, token } });
   };
 
-  const handleLogout = () => {
-    // Implement logout functionality here
-    console.log("Logout");
+  const handleLogout = async () => {
+    const response = await logout(token.token);
+    if (response) {
+      navigate("/");
+    }
   };
 
   const handleDismiss = () => {

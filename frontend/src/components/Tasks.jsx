@@ -10,8 +10,11 @@ import {
   Modal,
   Form,
 } from "react-bootstrap";
-import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
+import fetchTask from "../utils/fetchTask";
+import deleteTask from "../utils/deleteTask";
+import editTask from "../utils/editTask";
+import logout from "../utils/logout";
 
 const Tasks = () => {
   const location = useLocation();
@@ -33,41 +36,22 @@ const Tasks = () => {
   const [editedTask, setEditedTask] = useState({});
 
   useEffect(() => {
-    fetchTasks();
+    fetchData();
   });
 
-  const fetchTasks = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:15000/auth/v1/task/view",
-        "",
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      );
-      setUserTasks(response.data.tasks);
-    } catch (error) {
-      setError(true);
-      if (error.response) {
-        setErrorMessage(
-          error.response.data.message || "Failed to fetch tasks."
-        );
-      } else if (error.request) {
-        setErrorMessage("Network error. Please try again later.");
-      } else {
-        setErrorMessage("An error occurred. Please try again later.");
-      }
-    }
+  const fetchData = async () => {
+    await fetchTask(token.token, setUserTasks, setError, setErrorMessage);
   };
 
   const goToDashboard = () => {
     navigate("/dashboard", { state: { user: userData, token } });
   };
 
-  const handleLogout = () => {
-    console.log("Logout");
+  const handleLogout = async () => {
+    const response = await logout(token.token);
+    if (response) {
+      navigate("/");
+    }
   };
 
   const handleDismiss = () => {
@@ -76,64 +60,26 @@ const Tasks = () => {
   };
 
   const handleDelete = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:15000/auth/v1/task/delete",
-        {
-          taskId: selectedTask._id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      );
-      if (response.data.statusCode === 202) {
-        setSuccessMessage("Task deleted successfully");
-      } else {
-        setError(true);
-        setErrorMessage("Failed to delete task. Please try again later.");
-      }
-    } catch (error) {
-      setError(true);
-      setErrorMessage("An error occurred while deleting the task.");
-      console.log(error);
-    }
-    setShowDeleteModal(false);
+    await deleteTask(
+      selectedTask,
+      token.token,
+      setSuccessMessage,
+      setError,
+      setErrorMessage,
+      setShowDeleteModal
+    );
   };
 
   const handleEdit = async () => {
-    try {
-      const response = await axios.post(
-        "http://localhost:15000/auth/v1/task/edit",
-        {
-          taskId: selectedTask._id,
-          title: editedTask.title,
-          description: editedTask.description,
-          dueDate: editedTask.dueDate,
-          priority: editedTask.priority,
-          category: editedTask.category,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      );
-      if (response.data.statusCode === 202) {
-        setSuccessMessage("Task edited successfully");
-      } else {
-        setError(true);
-        setErrorMessage("Failed to edit task. Please try again later.");
-      }
-    } catch (error) {
-      setError(true);
-      setErrorMessage("An error occurred while editing the task.");
-      console.log(error);
-    }
-    setShowEditModal(false);
+    await editTask(
+      selectedTask,
+      editedTask,
+      token.token,
+      setSuccessMessage,
+      setError,
+      setErrorMessage,
+      setShowEditModal
+    );
   };
 
   return (

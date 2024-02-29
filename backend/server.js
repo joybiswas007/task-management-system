@@ -21,6 +21,7 @@ const addTask = require("./routes/tasks/addTask");
 const tasks = require("./routes/tasks/tasks");
 const editTask = require("./routes/tasks/editTask");
 const deleteTask = require("./routes/tasks/deleteTask");
+const refreskTokens = require("./routes/refresh");
 
 // Use routes
 app.use("/auth/v1/login", login);
@@ -29,6 +30,7 @@ app.use("/auth/v1/task/add", addTask);
 app.use("/auth/v1/task/view", tasks);
 app.use("/auth/v1/task/edit", editTask);
 app.use("/auth/v1/task/delete", deleteTask);
+app.use("/auth/v1/refresh/tokens", refreskTokens);
 
 app.get("*", (req, res) => {
   res.status(403).send({

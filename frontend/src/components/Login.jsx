@@ -9,14 +9,14 @@ const Login = () => {
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [userData, setUserData] = useState({});
-  const [tokens, setTokens] = useState({});
+  const [token, setToken] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (Object.keys(userData).length > 0 && Object.keys(tokens).length > 0) {
-      navigate("/dashboard", { state: { user: userData, tokens: tokens } });
+    if (Object.keys(userData).length > 0) {
+      navigate("/dashboard", { state: { user: userData, token } });
     }
-  }, [userData, tokens, navigate]);
+  }, [userData, token, navigate]);
 
   const loginUser = async () => {
     try {
@@ -27,7 +27,7 @@ const Login = () => {
       );
       if (response.data.statusCode === 200) {
         setUserData(response.data.user);
-        setTokens(response.data.tokens);
+        setToken(response.data.token);
       }
     } catch (error) {
       if (error.response.status === 401 || error.response.status === 404) {

@@ -9,7 +9,19 @@ const tokenSchema = new mongoose.Schema(
       ref: User,
       required: true
     },
-    tokens: [{ token: String }]
+    token: {
+      type: String,
+      required: true
+    },
+    expireAt: {
+      type: Date
+    },
+    expiredTokens: [
+      {
+        token: String,
+        expireAt: Date
+      }
+    ]
   },
   schemaOptions
 );

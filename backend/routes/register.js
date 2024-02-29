@@ -44,7 +44,7 @@ router.post("/", async (req, res) => {
 
     const accessToken = new Token({
       user: newUser._id,
-      tokens: [{ token }]
+      token
     });
 
     await accessToken.save();

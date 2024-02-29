@@ -5,7 +5,7 @@ const authUser = require("../../middleware/authUser");
 
 router.post("/", authUser, async (req, res) => {
   try {
-    const { userId } = req.user;
+    const { userId } = req.user.decoded;
     const tasks = await Task.find({ user: userId });
     if (tasks.length > 0) {
       return res.status(200).send({ statusCode: 200, tasks });

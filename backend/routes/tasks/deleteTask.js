@@ -15,7 +15,7 @@ router.post(
   },
   async (req, res) => {
     try {
-      const { userId } = req.user;
+      const { userId } = req.user.decoded;
       const { taskId } = req.taskData;
       const task = await Task.findOneAndDelete({ _id: taskId, user: userId });
       if (!task) {

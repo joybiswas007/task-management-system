@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 const Dashboard = () => {
   const location = useLocation();
   const userData = location.state?.user;
-  const tokens = location.state?.tokens;
+  const token = location.state?.token;
 
   // Check if user is authenticated
   const isAuthenticated = userData !== undefined;
@@ -58,7 +58,7 @@ const Dashboard = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${tokens.tokens[0].token}`,
+            Authorization: `Bearer ${token.tokens}`,
           },
         }
       );
@@ -78,7 +78,7 @@ const Dashboard = () => {
   };
 
   const handleViewTasks = () => {
-    navigate("/tasks", { state: { user: userData, tokens: tokens } });
+    navigate("/tasks", { state: { user: userData, token } });
   };
 
   const handleLogout = () => {

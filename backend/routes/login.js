@@ -15,8 +15,8 @@ router.post("/", async (req, res) => {
         message: "no user exist with that email address"
       });
     }
-    const tokens = await Token.findOne({ user: user._id }).select(
-      "_id user tokens"
+    const token = await Token.findOne({ user: user._id }).select(
+      "_id user token"
     );
     const matchPass = bcrypt.compareSync(password, user.password);
 
@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
       statusCode: 200,
       message: "Authentication successfull",
       user,
-      tokens
+      token
     });
   } catch (error) {
     logger.error(error.message);

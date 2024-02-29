@@ -21,7 +21,7 @@ router.post(
   },
   async (req, res) => {
     try {
-      const { userId } = req.user;
+      const { userId } = req.user.decoded;
       const { taskId, title, description, dueDate, priority, category } =
         req.taskData;
       const tasks = await Task.findOneAndUpdate(

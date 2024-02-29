@@ -19,7 +19,7 @@ const authUser = (req, res, next) => {
     }
 
     // Token is valid, store decoded user data in request object for further use
-    req.user = decoded;
+    req.user = { decoded, accessToken };
     next(); // Proceed to the next middleware or route handler
   });
 };

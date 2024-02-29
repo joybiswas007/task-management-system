@@ -14,7 +14,6 @@ router.post(
   authUser,
   async (req, res) => {
     try {
-      console.log(req.user);
       const { userId, title, description, dueDate, priority, category } =
         req.taskData;
       const task = new Task({
